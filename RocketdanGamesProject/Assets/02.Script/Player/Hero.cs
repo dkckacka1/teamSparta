@@ -11,5 +11,10 @@ namespace RocketdanGamesProject.Player
         public void TakeDamage(float damage)
         {
         }
+
+        public void Dead()
+        {
+            
+        }
     }
 }

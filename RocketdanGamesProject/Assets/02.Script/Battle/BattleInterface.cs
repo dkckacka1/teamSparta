@@ -10,5 +10,7 @@ namespace RocketdanGamesProject.Battle
     public interface ITakeDamageable
     {
         public void TakeDamage(float damage);
+
+        public void Dead();
     }
 }

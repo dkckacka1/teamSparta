@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 
-namespace RocketdanGamesProject.Monster
+namespace RocketdanGamesProject.Enemy
 {
     // 몬스터 기본 클래스
     public abstract class Monster : MonoBehaviour, ITakeDamageable, IHitDamageable
@@ -15,6 +15,9 @@ namespace RocketdanGamesProject.Monster
         protected Rigidbody Rb;
         protected Collider col;
         protected Animator animator;
+
+        public float maxHp;
+        public float currentHp;
         
         public float movementSpeed;
         public float climbForce;
@@ -44,7 +47,7 @@ namespace RocketdanGamesProject.Monster
 
         protected virtual void OnCollisionEnter(Collision other)
         {
-            if (other.transform.CompareTag(GameManager.HeroTag))
+            if (other.transform.CompareTag(BattleManager.HeroTag))
             {
                 animator.SetBool("IsAttacking", true);
                 isAttacking = true;
@@ -59,7 +62,7 @@ namespace RocketdanGamesProject.Monster
 
         protected virtual void OnCollisionStay(Collision other)
         {
-            if (other.transform.CompareTag(GameManager.MonsterTag) && !isAttacking)
+            if (other.transform.CompareTag(BattleManager.MonsterTag) && !isAttacking)
             {
                 if (other.contacts[0].normal.x > 0.5f)
                     // 좌측 충돌만 계산
@@ -71,7 +74,7 @@ namespace RocketdanGamesProject.Monster
 
         protected virtual void OnCollisionExit(Collision other)
         {
-            if (other.transform.CompareTag(GameManager.HeroTag))
+            if (other.transform.CompareTag(BattleManager.HeroTag))
             {
                 animator.SetBool("IsAttacking", false);
                 isAttacking = false;
@@ -80,7 +83,18 @@ namespace RocketdanGamesProject.Monster
         
         public void TakeDamage(float damage)
         {
-            
+            currentHp -= damage;
+
+            if (currentHp <= 0)
+            {
+                Dead();
+            }
+        }
+
+        public void Dead()
+        {
+            animator.SetBool("IsDead", true);
+            BattleManager.Instance.RemoveMonster(this);
         }
 
         public abstract void Move();

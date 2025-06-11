@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace RocketdanGamesProject.Monster
+namespace RocketdanGamesProject.Enemy
 {
     // 근접 좀비 몬스터 클래스
     public class ZombieMelee : Monster
