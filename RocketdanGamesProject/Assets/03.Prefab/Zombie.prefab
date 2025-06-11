@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 8267223698252326287}
   - component: {fileID: 8530574501185010516}
   - component: {fileID: 8328033614091789458}
+  - component: {fileID: 4744442960953856180}
   m_Layer: 0
   m_Name: Zombie
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63,7 +64,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 56348031605020328}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: f35c9e76e3b0cfe4b9a01b4619680e52, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -106,6 +107,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
+--- !u!114 &4744442960953856180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56348031605020328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2c714c2f68308c4e8847ee8cd72aef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 0
 --- !u!1 &161741587369829116
 GameObject:
   m_ObjectHideFlags: 0
