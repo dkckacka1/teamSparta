@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7304510241917602748}
   - component: {fileID: 8267223698252326287}
-  - component: {fileID: 8530574501185010516}
+  - component: {fileID: 6234539029979052940}
   - component: {fileID: 8328033614091789458}
   - component: {fileID: 4744442960953856180}
   m_Layer: 0
@@ -57,7 +57,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!136 &8530574501185010516
+--- !u!136 &6234539029979052940
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,7 +79,7 @@ CapsuleCollider:
   m_Radius: 0.48
   m_Height: 1.12
   m_Direction: 1
-  m_Center: {x: -0.08, y: 0.47, z: 0}
+  m_Center: {x: -0.09, y: 0.5, z: 0}
 --- !u!54 &8328033614091789458
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -90,7 +90,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -106,7 +106,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 120
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &4744442960953856180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,7 +119,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c714c2f68308c4e8847ee8cd72aef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 0
+  movementSpeed: 3
+  climbForce: 15
+  climbDir: {x: -0.5, y: 1, z: 0}
+  maxClimbSpeed: 1.5
+  isAttacking: 0
 --- !u!1 &161741587369829116
 GameObject:
   m_ObjectHideFlags: 0
