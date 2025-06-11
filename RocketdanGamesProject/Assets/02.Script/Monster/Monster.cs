@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using RocketdanGamesProject.Battle;
 using RocketdanGamesProject.Core;
+using RocketdanGamesProject.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -84,6 +85,7 @@ namespace RocketdanGamesProject.Enemy
         public void TakeDamage(float damage)
         {
             currentHp -= damage;
+            UIManager.Instance.ShowBattleText(damage.ToString(), transform.position);
 
             if (currentHp <= 0)
             {
