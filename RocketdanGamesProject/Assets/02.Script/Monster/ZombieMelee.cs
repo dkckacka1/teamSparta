@@ -11,12 +11,18 @@ namespace RocketdanGamesProject.Monster
     // 근접 좀비 몬스터 클래스
     public class ZombieMelee : Monster
     {
+        public float hitBounceForce;
+        
         public override void Move()
         {
             var movementVector = Vector2.left;
             transform.Translate(movementVector * (movementSpeed * Time.deltaTime));
         }
 
-
+        public override void Hit()
+        {
+            GetTarget?.Invoke().TakeDamage(hitDamage);
+            Rb.velocity = Vector3.right * hitBounceForce;
+        }
     }
 }

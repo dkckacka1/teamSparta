@@ -123,7 +123,9 @@ MonoBehaviour:
   climbForce: 15
   climbDir: {x: -0.5, y: 1, z: 0}
   maxClimbSpeed: 1.5
+  hitDamage: 10
   isAttacking: 0
+  hitBounceForce: 6
 --- !u!1 &161741587369829116
 GameObject:
   m_ObjectHideFlags: 0

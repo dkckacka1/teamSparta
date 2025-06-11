@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using RocketdanGamesProject.Battle;
 using RocketdanGamesProject.Core;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,22 +10,27 @@ using UnityEngine.Serialization;
 namespace RocketdanGamesProject.Monster
 {
     // 몬스터 기본 클래스
-    public abstract class Monster : MonoBehaviour
+    public abstract class Monster : MonoBehaviour, ITakeDamageable, IHitDamageable
     {
         protected Rigidbody Rb;
         protected Collider col;
+        protected Animator animator;
         
         public float movementSpeed;
         public float climbForce;
         public Vector3 climbDir;
         public float maxClimbSpeed;
 
+        public float hitDamage = 10f;
         public bool isAttacking = false;
 
+        public Func<ITakeDamageable> GetTarget;
+        
         protected virtual void Awake()
         {
             Rb = GetComponent<Rigidbody>();
             col = GetComponent<Collider>();
+            animator = GetComponent<Animator>();
         }
         
         protected virtual void FixedUpdate()
@@ -40,7 +46,14 @@ namespace RocketdanGamesProject.Monster
         {
             if (other.transform.CompareTag(GameManager.HeroTag))
             {
+                animator.SetBool("IsAttacking", true);
                 isAttacking = true;
+
+                ITakeDamageable takeDamage;
+                if ((takeDamage = other.gameObject.GetComponent<ITakeDamageable>()) != null)
+                {
+                    GetTarget = () => takeDamage;
+                }
             }
         }
 
@@ -49,6 +62,7 @@ namespace RocketdanGamesProject.Monster
             if (other.transform.CompareTag(GameManager.MonsterTag) && !isAttacking)
             {
                 if (other.contacts[0].normal.x > 0.5f)
+                    // 좌측 충돌만 계산
                 {
                     Rb.AddForce(climbDir * climbForce);
                 }
@@ -59,10 +73,18 @@ namespace RocketdanGamesProject.Monster
         {
             if (other.transform.CompareTag(GameManager.HeroTag))
             {
+                animator.SetBool("IsAttacking", false);
                 isAttacking = false;
             }
         }
+        
+        public void TakeDamage(float damage)
+        {
+            
+        }
 
         public abstract void Move();
+
+        public abstract void Hit();
     }
 }
