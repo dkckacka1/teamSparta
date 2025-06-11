@@ -19,11 +19,6 @@ namespace RocketdanGamesProject.Player
         private void FixedUpdate()
         {
             transform.Translate(_bulletDir * (bulletSpeed * Time.deltaTime));
-
-            if (transform.position.y < 0f)
-            {
-                Release();
-            }
         }
 
         public void SetTarget(Vector3 targetPosition, float damage)
@@ -43,6 +38,11 @@ namespace RocketdanGamesProject.Player
                     takeDamageAble.TakeDamage(bulletDamage);
                     Release();
                 }
+            }
+
+            if (other.CompareTag(BattleManager.ReleaseTag))
+            {
+                Release();
             }
         }
 

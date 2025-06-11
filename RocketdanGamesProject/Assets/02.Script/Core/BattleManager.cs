@@ -15,6 +15,7 @@ namespace RocketdanGamesProject.Core
         public const string HeroTag = "Hero";
         public const string MonsterTag = "Monster";
         public const string GroundTag = "Ground";
+        public const string ReleaseTag = "Release";
         
         public readonly List<Monster> MonsterList = new();
 
