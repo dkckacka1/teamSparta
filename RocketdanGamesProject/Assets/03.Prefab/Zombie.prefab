@@ -119,13 +119,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c714c2f68308c4e8847ee8cd72aef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHp: 0
+  currentHp: 0
   movementSpeed: 3
   climbForce: 15
   climbDir: {x: -0.5, y: 1, z: 0}
   maxClimbSpeed: 1.5
   hitDamage: 10
   isAttacking: 0
-  hitBounceForce: 6
+  hitBounceForce: 4
 --- !u!1 &161741587369829116
 GameObject:
   m_ObjectHideFlags: 0

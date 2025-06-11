@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
+using RocketdanGamesProject.Core.Creator;
 using RocketdanGamesProject.Enemy;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace RocketdanGamesProject.Core
 {
@@ -28,7 +31,9 @@ namespace RocketdanGamesProject.Core
             }
         }
 
-        public readonly List<Monster> _monsterList = new();   
+        public readonly List<Monster> _monsterList = new();
+
+        private MonsterCreator monsterCreator;
         
         
         public const string HeroTag = "Hero";
@@ -45,7 +50,25 @@ namespace RocketdanGamesProject.Core
                 _instance = this;
                 DontDestroyOnLoad(gameObject);
             }
+
+            monsterCreator = GetComponent<MonsterCreator>();
         }
+
+        private void Start()
+        {
+            SpawnStart().Forget();    
+        }
+
+        private async UniTaskVoid SpawnStart()
+        {
+            while (true)
+            {
+                var randomPos = Random.Range(0, 3);
+                monsterCreator.CreateMonster((MonsterCreator.SpawnType)randomPos);
+                await UniTask.WaitForSeconds(1);
+            }
+        }
+        
 
         public void AddMonster(Monster monster)
         {
