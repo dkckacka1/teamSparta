@@ -12,14 +12,15 @@ namespace RocketdanGamesProject.Core
     // 게임 매니저 클래스
     public class BattleManager : SingletonMono<BattleManager>
     {
-
-        public readonly List<Monster> _monsterList = new();
-
-        private MonsterCreator monsterCreator;
-        
-        
         public const string HeroTag = "Hero";
         public const string MonsterTag = "Monster";
+        public const string GroundTag = "Ground";
+        
+        public readonly List<Monster> MonsterList = new();
+
+        private MonsterCreator monsterCreator;
+
+        [SerializeField] private float spawnDelay = 1f;
 
         protected override void Initialize()
         {
@@ -38,24 +39,19 @@ namespace RocketdanGamesProject.Core
             {
                 var randomPos = Random.Range(0, 3);
                 monsterCreator.CreateMonster((MonsterCreator.SpawnType)randomPos);
-                await UniTask.WaitForSeconds(1);
+                await UniTask.WaitForSeconds(spawnDelay);
             }
         }
         
 
         public void AddMonster(Monster monster)
         {
-            _monsterList.Add(monster);
+            MonsterList.Add(monster);
         }
 
         public void RemoveMonster(Monster monster)
         {
-            _monsterList.Remove(monster);
-        }
-
-        public Monster GetMonster(Func<Monster, bool> monsterFunc)
-        {
-            return _monsterList.Where(monsterFunc).Single();
+            MonsterList.Remove(monster);
         }
     }
 }

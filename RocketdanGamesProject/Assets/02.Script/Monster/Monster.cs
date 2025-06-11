@@ -95,6 +95,12 @@ namespace RocketdanGamesProject.Enemy
         {
             animator.SetBool("IsDead", true);
             BattleManager.Instance.RemoveMonster(this);
+            Release();
+        }
+
+        public void Release()
+        {
+            Destroy(gameObject);
         }
 
         public abstract void Move();
