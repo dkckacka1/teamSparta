@@ -10,26 +10,8 @@ using Random = UnityEngine.Random;
 namespace RocketdanGamesProject.Core
 {
     // 게임 매니저 클래스
-    public class BattleManager : MonoBehaviour
+    public class BattleManager : SingletonMono<BattleManager>
     {
-        private static BattleManager _instance;
-        public static BattleManager Instance
-        {
-            get
-            {
-                if (_instance is null)
-                {
-                    var obj = new GameObject
-                    {
-                        name = nameof(BattleManager)
-                    };
-                    var ins = obj.AddComponent<BattleManager>();
-                    _instance = ins; 
-                }
-
-                return _instance;
-            }
-        }
 
         public readonly List<Monster> _monsterList = new();
 
@@ -37,20 +19,11 @@ namespace RocketdanGamesProject.Core
         
         
         public const string HeroTag = "Hero";
-        public const string MonsterTag = "Monster"; 
-        
-        private void Awake()
-        {
-            if (_instance is not null)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                _instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
+        public const string MonsterTag = "Monster";
 
+        protected override void Initialize()
+        {
+            base.Initialize();
             monsterCreator = GetComponent<MonsterCreator>();
         }
 
