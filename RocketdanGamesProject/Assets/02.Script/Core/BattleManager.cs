@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using RocketdanGamesProject.Core.Creator;
 using RocketdanGamesProject.Enemy;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace RocketdanGamesProject.Core
@@ -14,19 +15,19 @@ namespace RocketdanGamesProject.Core
     {
         public const string HeroTag = "Hero";
         public const string MonsterTag = "Monster";
-        public const string GroundTag = "Ground";
         public const string ReleaseTag = "Release";
-        
-        public readonly List<Monster> MonsterList = new();
 
-        private MonsterCreator monsterCreator;
+        public readonly List<Monster> MonsterList = new();
+        public readonly UnityEvent OnBattleEvent = new UnityEvent();
+
+        private MonsterCreator _monsterCreator;
 
         [SerializeField] private float spawnDelay = 1f;
 
         protected override void Initialize()
         {
             base.Initialize();
-            monsterCreator = GetComponent<MonsterCreator>();
+            _monsterCreator = GetComponent<MonsterCreator>();
         }
 
         private void Start()
@@ -34,16 +35,20 @@ namespace RocketdanGamesProject.Core
             SpawnStart().Forget();    
         }
 
+        private void FixedUpdate()
+        {
+            OnBattleEvent?.Invoke();
+        }
+
         private async UniTaskVoid SpawnStart()
         {
             while (true)
             {
                 var randomPos = Random.Range(0, 3);
-                monsterCreator.CreateMonster((MonsterCreator.SpawnType)randomPos);
+                _monsterCreator.CreateMonster((MonsterCreator.SpawnType)randomPos);
                 await UniTask.WaitForSeconds(spawnDelay);
             }
         }
-        
 
         public void AddMonster(Monster monster)
         {
