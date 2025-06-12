@@ -101,6 +101,7 @@ namespace RocketdanGamesProject.Enemy
 
         public void OnGet()
         {
+            currentHp = maxHp;  
         }
 
         public void OnRelease()
