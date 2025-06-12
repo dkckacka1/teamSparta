@@ -19,16 +19,17 @@ namespace RocketdanGamesProject.Enemy
         public float currentHp;
 
         public float movementSpeed;
-        public float climbForce;
-        public Vector3 climbDir;
-        public float maxClimbSpeed;
-
         public float hitDamage = 10f;
-        public bool isAttacking = false;
-
-        public Func<ITakeDamageable> GetTarget;
-
+        
+        protected bool IsAttacking = false;
+        protected Func<ITakeDamageable> GetTarget;
+        
         [SerializeField] private Transform battleTextOffsetTransform;
+        
+        [SerializeField] private float climbForce;
+        [SerializeField] private Vector3 climbDir;
+        [SerializeField] private float maxClimbSpeed;
+        [SerializeField] private float pressureForce;
 
         protected virtual void FixedUpdate()
         {
@@ -44,7 +45,7 @@ namespace RocketdanGamesProject.Enemy
             if (other.transform.CompareTag(BattleManager.HeroTag))
             {
                 _animator.SetBool("IsAttacking", true);
-                isAttacking = true;
+                IsAttacking = true;
 
                 ITakeDamageable takeDamage;
                 if ((takeDamage = other.gameObject.GetComponent<ITakeDamageable>()) != null)
@@ -54,14 +55,26 @@ namespace RocketdanGamesProject.Enemy
             }
         }
 
+
         protected virtual void OnCollisionStay(Collision other)
         {
-            if (other.transform.CompareTag(BattleManager.MonsterTag) && !isAttacking)
+            if (other.transform.CompareTag(BattleManager.MonsterTag))
             {
-                if (other.contacts[0].normal.x > 0.5f)
-                    // 좌측 충돌만 계산
+                if (!IsAttacking)
                 {
-                    Rb.AddForce(climbDir * climbForce);
+                    if (other.contacts[0].normal.x > 0.5f)
+                        // 좌측 충돌만 계산
+                    {
+                        // 공격중이 아닐때 좌측에 몬스터 충돌 시 오르기
+                        Rb.AddForce(climbDir * climbForce);
+                    }
+                }
+                
+                if (other.contacts[0].normal.y < -0.9f)
+                    // 위쪽 충돌 계산
+                {
+                    // 공격중이 아닐때 좌측에 몬스터 충돌 시 오르기
+                    Rb.AddForce(Vector3.right * pressureForce);
                 }
             }
         }
@@ -71,7 +84,7 @@ namespace RocketdanGamesProject.Enemy
             if (other.transform.CompareTag(BattleManager.HeroTag))
             {
                 _animator.SetBool("IsAttacking", false);
-                isAttacking = false;
+                IsAttacking = false;
             }
         }
 

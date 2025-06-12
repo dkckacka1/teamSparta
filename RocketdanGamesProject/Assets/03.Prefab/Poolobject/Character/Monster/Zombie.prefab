@@ -124,13 +124,12 @@ MonoBehaviour:
   maxHp: 20
   currentHp: 0
   movementSpeed: 3
+  hitDamage: 10
+  battleTextOffsetTransform: {fileID: 8143844044901216083}
   climbForce: 15
   climbDir: {x: -0.5, y: 1, z: 0}
   maxClimbSpeed: 1.5
-  hitDamage: 10
-  isAttacking: 0
-  battleTextOffsetTransform: {fileID: 8143844044901216083}
-  hitBounceForce: 4
+  pressureForce: 10
 --- !u!114 &3786988557377680311
 MonoBehaviour:
   m_ObjectHideFlags: 0
