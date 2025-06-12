@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6234539029979052940}
   - component: {fileID: 8328033614091789458}
   - component: {fileID: 4744442960953856180}
+  - component: {fileID: 3786988557377680311}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Monster
@@ -119,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c714c2f68308c4e8847ee8cd72aef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 0
+  maxHp: 20
   currentHp: 0
   movementSpeed: 3
   climbForce: 15
@@ -128,6 +129,19 @@ MonoBehaviour:
   hitDamage: 10
   isAttacking: 0
   hitBounceForce: 4
+--- !u!114 &3786988557377680311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56348031605020328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da7c4178a9c435347ac27699229a3773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: 
 --- !u!1 &161741587369829116
 GameObject:
   m_ObjectHideFlags: 0

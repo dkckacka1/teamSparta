@@ -10,7 +10,7 @@ namespace RocketdanGamesProject.Core.ObjectPool
     {
         private readonly List<IPoolable> _poolableList = new List<IPoolable>();
 
-        public string poolName;
+        [HideInInspector] public string poolName;
 
         private void Awake()
         {

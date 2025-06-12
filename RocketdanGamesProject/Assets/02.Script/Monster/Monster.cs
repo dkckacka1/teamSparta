@@ -1,25 +1,23 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using RocketdanGamesProject.Battle;
 using RocketdanGamesProject.Core;
+using RocketdanGamesProject.Core.ObjectPool;
 using RocketdanGamesProject.UI;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.Pool;
 
 
 namespace RocketdanGamesProject.Enemy
 {
     // 몬스터 기본 클래스
-    public abstract class Monster : MonoBehaviour, ITakeDamageable, IHitDamageable
+    public abstract class Monster : MonoBehaviour, ITakeDamageable, IHitDamageable, IPoolable
     {
         protected Rigidbody Rb;
-        protected Collider col;
         protected Animator animator;
 
         public float maxHp;
         public float currentHp;
-        
+
         public float movementSpeed;
         public float climbForce;
         public Vector3 climbDir;
@@ -29,18 +27,11 @@ namespace RocketdanGamesProject.Enemy
         public bool isAttacking = false;
 
         public Func<ITakeDamageable> GetTarget;
-        
-        protected virtual void Awake()
-        {
-            Rb = GetComponent<Rigidbody>();
-            col = GetComponent<Collider>();
-            animator = GetComponent<Animator>();
-        }
-        
+
         protected virtual void FixedUpdate()
         {
             Move();
-            
+
             var v = Rb.velocity;
             v.y = Mathf.Clamp(v.y, -Mathf.Infinity, maxClimbSpeed);
             Rb.velocity = v;
@@ -81,7 +72,7 @@ namespace RocketdanGamesProject.Enemy
                 isAttacking = false;
             }
         }
-        
+
         public void TakeDamage(float damage)
         {
             currentHp -= damage;
@@ -97,12 +88,25 @@ namespace RocketdanGamesProject.Enemy
         {
             animator.SetBool("IsDead", true);
             BattleManager.Instance.RemoveMonster(this);
-            Release();
+
+            var poolObject = GetComponent<PoolObject>();
+            ObjectPoolManager.Instance.Release(poolObject.poolName, poolObject);
         }
 
-        public void Release()
+        public void OnCreate()
         {
-            Destroy(gameObject);
+            Rb = GetComponent<Rigidbody>();
+            animator = GetComponent<Animator>();
+        }
+
+        public void OnGet()
+        {
+        }
+
+        public void OnRelease()
+        {
+            animator.SetBool("IsAttacking", false);
+            animator.SetBool("IsDead", false);
         }
 
         public abstract void Move();

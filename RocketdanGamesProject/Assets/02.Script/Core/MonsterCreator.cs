@@ -1,4 +1,6 @@
 using System;
+using RocketdanGamesProject.Core.ObjectPool;
+using RocketdanGamesProject.Enemy;
 using UnityEngine;
 
 namespace RocketdanGamesProject.Core.Creator
@@ -13,7 +15,7 @@ namespace RocketdanGamesProject.Core.Creator
             Bottom
         }
 
-        [SerializeField] private Enemy.Monster _monster;
+        [SerializeField] private PoolObject monsterPoolObject;
 
         [SerializeField] private Transform monsterSpawnParent;
 
@@ -21,12 +23,25 @@ namespace RocketdanGamesProject.Core.Creator
         [SerializeField] private Transform middleSpawnPoint;
         [SerializeField] private Transform bottomSpawnPoint;
 
+        private Func<Monster> _getMonster = null;
+
+        private const string MonsterPoolName = "monster";
+
+        private void Awake()
+        {
+            ObjectPoolManager.Instance.CreatePool(MonsterPoolName, monsterPoolObject, monsterSpawnParent);
+            _getMonster = () => ObjectPoolManager.Instance.Get<Monster>(MonsterPoolName);
+        }
+
         public void CreateMonster(SpawnType spawnType)
         {
-            var monster = Instantiate(_monster, monsterSpawnParent);
-            monster.transform.position = GetSpawnPoint(spawnType).position;
-            
-            BattleManager.Instance.AddMonster(monster);
+            var monster = _getMonster?.Invoke();
+            if (monster)
+            {
+                monster.transform.position = GetSpawnPoint(spawnType).position;
+
+                BattleManager.Instance.AddMonster(monster);
+            }
         }
 
         private Transform GetSpawnPoint(SpawnType spawnType)
