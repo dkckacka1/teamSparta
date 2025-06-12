@@ -13,7 +13,7 @@ namespace RocketdanGamesProject.Enemy
     public abstract class Monster : MonoBehaviour, ITakeDamageable, IHitDamageable, IPoolable
     {
         protected Rigidbody Rb;
-        protected Animator animator;
+        private Animator _animator;
 
         public float maxHp;
         public float currentHp;
@@ -28,6 +28,8 @@ namespace RocketdanGamesProject.Enemy
 
         public Func<ITakeDamageable> GetTarget;
 
+        [SerializeField] private Transform battleTextOffsetTransform;
+
         protected virtual void FixedUpdate()
         {
             Move();
@@ -41,7 +43,7 @@ namespace RocketdanGamesProject.Enemy
         {
             if (other.transform.CompareTag(BattleManager.HeroTag))
             {
-                animator.SetBool("IsAttacking", true);
+                _animator.SetBool("IsAttacking", true);
                 isAttacking = true;
 
                 ITakeDamageable takeDamage;
@@ -68,7 +70,7 @@ namespace RocketdanGamesProject.Enemy
         {
             if (other.transform.CompareTag(BattleManager.HeroTag))
             {
-                animator.SetBool("IsAttacking", false);
+                _animator.SetBool("IsAttacking", false);
                 isAttacking = false;
             }
         }
@@ -76,7 +78,7 @@ namespace RocketdanGamesProject.Enemy
         public void TakeDamage(float damage)
         {
             currentHp -= damage;
-            UIManager.Instance.ShowBattleText(damage.ToString(), transform.position);
+            UIManager.Instance.ShowBattleText(damage.ToString(), battleTextOffsetTransform.position);
 
             if (currentHp <= 0)
             {
@@ -86,7 +88,7 @@ namespace RocketdanGamesProject.Enemy
 
         public void Dead()
         {
-            animator.SetBool("IsDead", true);
+            _animator.SetBool("IsDead", true);
             BattleManager.Instance.RemoveMonster(this);
 
             var poolObject = GetComponent<PoolObject>();
@@ -96,7 +98,7 @@ namespace RocketdanGamesProject.Enemy
         public void OnCreate()
         {
             Rb = GetComponent<Rigidbody>();
-            animator = GetComponent<Animator>();
+            _animator = GetComponent<Animator>();
         }
 
         public void OnGet()
@@ -106,8 +108,8 @@ namespace RocketdanGamesProject.Enemy
 
         public void OnRelease()
         {
-            animator.SetBool("IsAttacking", false);
-            animator.SetBool("IsDead", false);
+            _animator.SetBool("IsAttacking", false);
+            _animator.SetBool("IsDead", false);
         }
 
         public abstract void Move();
