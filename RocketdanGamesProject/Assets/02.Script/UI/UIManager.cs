@@ -1,4 +1,6 @@
+using System;
 using RocketdanGamesProject.Core;
+using RocketdanGamesProject.Core.ObjectPool;
 using UnityEngine;
 
 namespace RocketdanGamesProject.UI
@@ -7,15 +9,29 @@ namespace RocketdanGamesProject.UI
     public class UIManager : SingletonMono<UIManager>
     {
         [SerializeField] private Canvas canvas;
-        [SerializeField] private BattleText battleTextPrefab;
+        [SerializeField] private PoolObject battleTextPrefab;
+
+        private Func<BattleText> GetBattleText;
+        
+        private const string BattleTextPoolName = "BattleText"; 
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+            ObjectPoolManager.Instance.CreatePool(BattleTextPoolName, battleTextPrefab, canvas.transform);
+            GetBattleText = () => ObjectPoolManager.Instance.Get<BattleText>(BattleTextPoolName);
+        }
 
         public void ShowBattleText(string text, Vector3 spawnPosition)
         {
-            var battleText = Instantiate(battleTextPrefab, canvas.transform);
+            var battleText = GetBattleText?.Invoke();
 
-            var textPosition = Camera.main.WorldToScreenPoint(spawnPosition);
-            battleText.transform.position = textPosition;
-            battleText.SetText(text);
+            if (battleText)
+            {
+                var textPosition = Camera.main.WorldToScreenPoint(spawnPosition);
+                battleText.transform.position = textPosition;
+                battleText.SetText(text);
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5576318415840171667}
   - component: {fileID: 2771923479898430058}
   - component: {fileID: 7688738428182240732}
+  - component: {fileID: -4608012723657258137}
   m_Layer: 5
   m_Name: BattleText
   m_TagString: Untagged
@@ -147,3 +148,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dcbb0735372663429b70467b69ba3e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movePosY: 300
+  moveDuration: 0.5
+--- !u!114 &-4608012723657258137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2225593383046001718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da7c4178a9c435347ac27699229a3773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: 
