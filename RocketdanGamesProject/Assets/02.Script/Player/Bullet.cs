@@ -8,10 +8,13 @@ namespace RocketdanGamesProject.Player
     // 총알 기본 클래스
     public class Bullet : MonoBehaviour, IPoolable
     {
-        [HideInInspector] public float bulletDamage;
-        public float bulletSpeed = 5f;
+        [HideInInspector] public float bulletDamage = DefaultBulletDamage;
+        [HideInInspector] public float bulletSpeed = DefaultBulletSpeed;
 
         private Vector3 _bulletDir;
+
+        private const float DefaultBulletSpeed = 5f;
+        private const float DefaultBulletDamage = 10f;
 
         private void FixedUpdate()
         {
@@ -21,6 +24,13 @@ namespace RocketdanGamesProject.Player
         public void SetTarget(Vector3 targetPosition, float damage)
         {
             bulletDamage = damage;
+            _bulletDir = (targetPosition - transform.position).normalized;
+        }
+
+        public void SetTarget(Vector3 targetPosition, float damage, float speed)
+        {
+            bulletDamage = damage;
+            bulletSpeed = speed;
             _bulletDir = (targetPosition - transform.position).normalized;
         }
 
@@ -60,6 +70,8 @@ namespace RocketdanGamesProject.Player
 
         public void OnRelease()
         {
+            bulletDamage = DefaultBulletDamage;
+            bulletSpeed = DefaultBulletSpeed;
         }
     }
 }
