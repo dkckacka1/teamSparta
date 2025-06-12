@@ -236,9 +236,9 @@ MonoBehaviour:
   gun: {fileID: 3004363631877897994}
   gunShotPoint: {fileID: 4442579075025842891}
   shotAngle: 30
-  bulletPrefab: {fileID: 3230818211522858822, guid: 6027b99c7b1abaf48a4f319d46af96f2, type: 3}
+  bulletPrefab: {fileID: 7833520694309834270, guid: 6027b99c7b1abaf48a4f319d46af96f2, type: 3}
   damage: 5
-  shotDelay: 3
+  shotDelay: 1
 --- !u!1 &5924000987920944174
 GameObject:
   m_ObjectHideFlags: 0

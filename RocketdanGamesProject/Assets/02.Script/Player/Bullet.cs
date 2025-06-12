@@ -1,15 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using RocketdanGamesProject.Battle;
 using RocketdanGamesProject.Core;
+using RocketdanGamesProject.Core.ObjectPool;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace RocketdanGamesProject.Player
 {
     // 총알 기본 클래스
-    public class Bullet : MonoBehaviour
+    public class Bullet : MonoBehaviour, IPoolable
     {
         [HideInInspector] public float bulletDamage;
         public float bulletSpeed = 5f;
@@ -48,7 +45,21 @@ namespace RocketdanGamesProject.Player
 
         private void Release()
         {
-            Destroy(this.gameObject);
+            var poolObject = GetComponent<PoolObject>();
+            ObjectPoolManager.Instance.Release(poolObject.poolName, poolObject);
+        }
+
+        public void OnCreate()
+        {
+            
+        }
+
+        public void OnGet()
+        {
+        }
+
+        public void OnRelease()
+        {
         }
     }
 }

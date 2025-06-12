@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1840972943}
-  battleTextPrefab: {fileID: 7688738428182240732, guid: 73859888d4fa53c4f93f20aab1f7e97b, type: 3}
+  battleTextPrefab: {fileID: -4608012723657258137, guid: 73859888d4fa53c4f93f20aab1f7e97b, type: 3}
 --- !u!1 &478636166
 GameObject:
   m_ObjectHideFlags: 0

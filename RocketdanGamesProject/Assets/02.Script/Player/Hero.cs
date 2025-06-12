@@ -1,14 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.Triggers;
 using RocketdanGamesProject.Battle;
 using RocketdanGamesProject.Core;
+using RocketdanGamesProject.Core.ObjectPool;
 using RocketdanGamesProject.Enemy;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace RocketdanGamesProject.Player
 {
@@ -18,19 +15,22 @@ namespace RocketdanGamesProject.Player
         [SerializeField] private Transform gun;
         [SerializeField] private Transform gunShotPoint;
         [SerializeField] private float shotAngle = 30f;
-        [SerializeField] private Bullet bulletPrefab;
+        [SerializeField] private PoolObject bulletPrefab;
 
         public float damage;
         public float shotDelay = 0.5f;
         
-        private Transform projectileParentTransform;
         private Monster nearlyMonster;
 
+        private Func<Bullet> _getBullet = null;
+
         private const float GunRotationOffset = 30f;
+        private const string BulletPoolName = "Bullet";
 
         private void Awake()
         {
-            projectileParentTransform = GameObject.Find("Projectile").transform;
+            ObjectPoolManager.Instance.CreatePool(BulletPoolName, bulletPrefab, GameObject.Find("Projectile").transform);
+            _getBullet = () => ObjectPoolManager.Instance.Get<Bullet>(BulletPoolName);
         }
 
         private void Start()
@@ -74,7 +74,7 @@ namespace RocketdanGamesProject.Player
 
         private void ShotBullet(Vector3 targetPosition)
         {
-            var bullet = Instantiate(bulletPrefab, projectileParentTransform);
+            var bullet = _getBullet.Invoke();
             bullet.transform.position = gunShotPoint.transform.position;
             bullet.SetTarget(targetPosition, damage);
         }
