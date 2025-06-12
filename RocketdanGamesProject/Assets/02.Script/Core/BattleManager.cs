@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace RocketdanGamesProject.Core
 {
-    // 게임 매니저 클래스
+    // 전투 매니저 클래스
     public class BattleManager : SingletonMono<BattleManager>
     {
         public const string HeroTag = "Hero";

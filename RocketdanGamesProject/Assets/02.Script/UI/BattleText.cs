@@ -20,7 +20,7 @@ namespace RocketdanGamesProject.UI
         
         private TextMeshProUGUI _text;
 
-        private Sequence textSequence;
+        private Sequence _textSequence;
 
         public void SetText(string outputText)
         {
@@ -29,10 +29,10 @@ namespace RocketdanGamesProject.UI
             var randomPosition = new Vector3(Random.Range(-maxJumpPosX, maxJumpPosX),
                 Random.Range(minJumpPosY, maxJumpPosY), 0);
 
-            textSequence = DOTween.Sequence();
-            textSequence.Append(_text.DOFade(0f, tweenDuration).SetEase(Ease.InQuart));
-            textSequence.Insert(0f, _text.transform.DOJump(transform.position + randomPosition, 50f, 1, tweenDuration).SetEase(Ease.OutCirc));
-            textSequence.OnComplete(Release);
+            _textSequence = DOTween.Sequence();
+            _textSequence.Append(_text.DOFade(0f, tweenDuration).SetEase(Ease.InQuart));
+            _textSequence.Insert(0f, _text.transform.DOJump(transform.position + randomPosition, 50f, 1, tweenDuration).SetEase(Ease.OutCirc));
+            _textSequence.OnComplete(Release);
         }
 
         private void Release()
@@ -54,10 +54,11 @@ namespace RocketdanGamesProject.UI
         {
             _text.text = "";
             _text.color = Color.white;
-            if (textSequence.IsPlaying())
+            
+            if (_textSequence.IsPlaying())
             {
-                textSequence.Kill();
-                textSequence = null;
+                _textSequence.Kill();
+                _textSequence = null;
             }
         }
     }

@@ -13,12 +13,8 @@ namespace RocketdanGamesProject.Enemy
     {
         public override void Move()
         {
-            if (IsAttacking is false)
-            {
-                var movementVector = Vector2.left;
-                transform.Translate(movementVector * (movementSpeed * Time.deltaTime));
-            }
-
+            var movementVector = Vector2.left;
+            transform.Translate(movementVector * (movementSpeed * Time.deltaTime));
         }
 
         public override void Hit()

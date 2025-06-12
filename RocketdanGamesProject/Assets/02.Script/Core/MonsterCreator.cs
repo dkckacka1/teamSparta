@@ -46,17 +46,13 @@ namespace RocketdanGamesProject.Core.Creator
 
         private Transform GetSpawnPoint(SpawnType spawnType)
         {
-            switch (spawnType)
+            return spawnType switch
             {
-                case SpawnType.Top:
-                    return topSpawnPoint;
-                case SpawnType.Middle:
-                    return middleSpawnPoint;
-                case SpawnType.Bottom:
-                    return bottomSpawnPoint;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(spawnType), spawnType, null);
-            }
+                SpawnType.Top => topSpawnPoint,
+                SpawnType.Middle => middleSpawnPoint,
+                SpawnType.Bottom => bottomSpawnPoint,
+                _ => throw new ArgumentOutOfRangeException(nameof(spawnType), spawnType, null)
+            };
         }
     }
 }

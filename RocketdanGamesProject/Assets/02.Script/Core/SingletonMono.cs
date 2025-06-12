@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace RocketdanGamesProject.Core
 {
+    // 싱글턴 모노비헤이비어 클래스
     public class SingletonMono<T> : MonoBehaviour where T: Component
     {
         private static T _instance;

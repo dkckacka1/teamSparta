@@ -4,15 +4,16 @@ using RocketdanGamesProject.Core;
 using RocketdanGamesProject.Core.ObjectPool;
 using RocketdanGamesProject.UI;
 using UnityEngine;
-using UnityEngine.Pool;
-
 
 namespace RocketdanGamesProject.Enemy
 {
     // 몬스터 기본 클래스
-    public abstract class Monster : MonoBehaviour, ITakeDamageable, IHitDamageable, IPoolable
+    public abstract class Monster : MonoBehaviour, ITakeDamageable, IPoolable
     {
-        protected Rigidbody Rb;
+        private static readonly int IsAttackAnimHash = Animator.StringToHash("IsAttacking");
+        private static readonly int IsDeadAnimHash = Animator.StringToHash("IsDead");
+
+        private Rigidbody _rb;
         private Animator _animator;
 
         public float maxHp;
@@ -35,16 +36,16 @@ namespace RocketdanGamesProject.Enemy
         {
             Move();
 
-            var v = Rb.velocity;
+            var v = _rb.velocity;
             v.y = Mathf.Clamp(v.y, -Mathf.Infinity, maxClimbSpeed);
-            Rb.velocity = v;
+            _rb.velocity = v;
         }
 
-        protected virtual void OnCollisionEnter(Collision other)
+        protected void OnCollisionEnter(Collision other)
         {
             if (other.transform.CompareTag(BattleManager.HeroTag))
             {
-                _animator.SetBool("IsAttacking", true);
+                _animator.SetBool(IsAttackAnimHash, true);
                 IsAttacking = true;
 
                 ITakeDamageable takeDamage;
@@ -56,7 +57,7 @@ namespace RocketdanGamesProject.Enemy
         }
 
 
-        protected virtual void OnCollisionStay(Collision other)
+        protected void OnCollisionStay(Collision other)
         {
             if (other.transform.CompareTag(BattleManager.MonsterTag))
             {
@@ -66,7 +67,7 @@ namespace RocketdanGamesProject.Enemy
                         // 좌측 충돌만 계산
                     {
                         // 공격중이 아닐때 좌측에 몬스터 충돌 시 오르기
-                        Rb.AddForce(climbDir * climbForce);
+                        _rb.AddForce(climbDir * climbForce);
                     }
                 }
                 
@@ -74,16 +75,16 @@ namespace RocketdanGamesProject.Enemy
                     // 위쪽 충돌 계산
                 {
                     // 공격중이 아닐때 좌측에 몬스터 충돌 시 오르기
-                    Rb.AddForce(Vector3.right * pressureForce);
+                    _rb.AddForce(Vector3.right * pressureForce);
                 }
             }
         }
 
-        protected virtual void OnCollisionExit(Collision other)
+        protected void OnCollisionExit(Collision other)
         {
             if (other.transform.CompareTag(BattleManager.HeroTag))
             {
-                _animator.SetBool("IsAttacking", false);
+                _animator.SetBool(IsAttackAnimHash, false);
                 IsAttacking = false;
             }
         }
@@ -101,7 +102,7 @@ namespace RocketdanGamesProject.Enemy
 
         public void Dead()
         {
-            _animator.SetBool("IsDead", true);
+            _animator.SetBool(IsDeadAnimHash, true);
             BattleManager.Instance.RemoveMonster(this);
 
             var poolObject = GetComponent<PoolObject>();
@@ -110,7 +111,7 @@ namespace RocketdanGamesProject.Enemy
 
         public void OnCreate()
         {
-            Rb = GetComponent<Rigidbody>();
+            _rb = GetComponent<Rigidbody>();
             _animator = GetComponent<Animator>();
         }
 
@@ -121,8 +122,8 @@ namespace RocketdanGamesProject.Enemy
 
         public void OnRelease()
         {
-            _animator.SetBool("IsAttacking", false);
-            _animator.SetBool("IsDead", false);
+            _animator.SetBool(IsAttackAnimHash, false);
+            _animator.SetBool(IsDeadAnimHash, false);
         }
 
         public abstract void Move();

@@ -11,7 +11,7 @@ namespace RocketdanGamesProject.UI
         [SerializeField] private Canvas canvas;
         [SerializeField] private PoolObject battleTextPrefab;
 
-        private Func<BattleText> GetBattleText;
+        private Func<BattleText> _getBattleText;
         
         private const string BattleTextPoolName = "BattleText"; 
 
@@ -19,12 +19,12 @@ namespace RocketdanGamesProject.UI
         {
             base.Initialize();
             ObjectPoolManager.Instance.CreatePool(BattleTextPoolName, battleTextPrefab, canvas.transform);
-            GetBattleText = () => ObjectPoolManager.Instance.Get<BattleText>(BattleTextPoolName);
+            _getBattleText = () => ObjectPoolManager.Instance.Get<BattleText>(BattleTextPoolName);
         }
 
         public void ShowBattleText(string text, Vector3 spawnPosition)
         {
-            var battleText = GetBattleText?.Invoke();
+            var battleText = _getBattleText?.Invoke();
 
             if (battleText)
             {
