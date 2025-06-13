@@ -3,15 +3,15 @@ using Cysharp.Threading.Tasks;
 using RocketdanGamesProject.Battle;
 using RocketdanGamesProject.Core;
 using RocketdanGamesProject.Enemy;
+using RocketdanGamesProject.Player.Weapon;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace RocketdanGamesProject.Player
 {
     // 플레이어 영웅 클래스
     public class Hero : MonoBehaviour,ITakeDamageable
     {
-        [SerializeField] private Gun.Gun gun;
+        [SerializeField] private Gun gun;
 
         private Monster _targetMonster;
         private const float GunRotationOffset = 30f;

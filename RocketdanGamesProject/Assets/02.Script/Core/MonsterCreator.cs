@@ -23,7 +23,7 @@ namespace RocketdanGamesProject.Core.Creator
         [SerializeField] private Transform middleSpawnPoint;
         [SerializeField] private Transform bottomSpawnPoint;
 
-        private Func<Monster> _getMonster = null;
+        private Func<Monster> _getMonster;
 
         private const string MonsterPoolName = "monster";
 
@@ -39,7 +39,8 @@ namespace RocketdanGamesProject.Core.Creator
             if (monster)
             {
                 monster.transform.position = GetSpawnPoint(spawnType).position;
-
+                monster.SetSortingLayer(GetSortingLayerName(spawnType));
+                
                 BattleManager.Instance.AddMonster(monster);
             }
         }
@@ -51,6 +52,17 @@ namespace RocketdanGamesProject.Core.Creator
                 SpawnType.Top => topSpawnPoint,
                 SpawnType.Middle => middleSpawnPoint,
                 SpawnType.Bottom => bottomSpawnPoint,
+                _ => throw new ArgumentOutOfRangeException(nameof(spawnType), spawnType, null)
+            };
+        }
+        
+        private string GetSortingLayerName(SpawnType spawnType)
+        {
+            return spawnType switch
+            {
+                SpawnType.Top => "FrontLayer",
+                SpawnType.Middle => "MiddleLayer",
+                SpawnType.Bottom => "BackLayer",
                 _ => throw new ArgumentOutOfRangeException(nameof(spawnType), spawnType, null)
             };
         }

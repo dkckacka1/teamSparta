@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using RocketdanGamesProject.Core.Creator;
 using RocketdanGamesProject.Enemy;
@@ -19,14 +17,14 @@ namespace RocketdanGamesProject.Core
         
         public readonly List<Monster> MonsterList = new();
 
-        private MonsterCreator monsterCreator;
+        private MonsterCreator _monsterCreator;
 
         [SerializeField] private float spawnDelay = 1f;
 
         protected override void Initialize()
         {
             base.Initialize();
-            monsterCreator = GetComponent<MonsterCreator>();
+            _monsterCreator = GetComponent<MonsterCreator>();
         }
 
         private void Start()
@@ -39,7 +37,7 @@ namespace RocketdanGamesProject.Core
             while (true)
             {
                 var randomPos = Random.Range(0, 3);
-                monsterCreator.CreateMonster((MonsterCreator.SpawnType)randomPos);
+                _monsterCreator.CreateMonster((MonsterCreator.SpawnType)randomPos);
                 await UniTask.WaitForSeconds(spawnDelay);
             }
         }
