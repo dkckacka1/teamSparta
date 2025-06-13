@@ -21,8 +21,8 @@ namespace RocketdanGamesProject.Enemy
 
         public float movementSpeed;
         public float hitDamage = 10f;
-        
-        protected bool IsAttacking = false;
+
+        private bool _isAttacking;
         protected Func<ITakeDamageable> GetTarget;
         
         [SerializeField] private Transform battleTextOffsetTransform;
@@ -46,7 +46,7 @@ namespace RocketdanGamesProject.Enemy
             if (other.transform.CompareTag(BattleManager.HeroTag))
             {
                 _animator.SetBool(IsAttackAnimHash, true);
-                IsAttacking = true;
+                _isAttacking = true;
 
                 ITakeDamageable takeDamage;
                 if ((takeDamage = other.gameObject.GetComponent<ITakeDamageable>()) != null)
@@ -56,16 +56,15 @@ namespace RocketdanGamesProject.Enemy
             }
         }
 
-
         protected void OnCollisionStay(Collision other)
         {
             if (other.transform.CompareTag(BattleManager.MonsterTag))
             {
-                if (!IsAttacking)
+                if (!_isAttacking)
                 {
-                    bool isCollisionMonsterClimb = other.rigidbody.velocity.y > 0;
+                    bool isCollisionMonsterClimbing = other.rigidbody.velocity.y > 0;
                     
-                    if (other.contacts[0].normal.x > 0.5f && isCollisionMonsterClimb is false)
+                    if (other.contacts[0].normal.x > 0.5f && isCollisionMonsterClimbing is false)
                         // 좌측 충돌만 계산 && 대상 몬스터가 오르고 있지 않다면
                     {
                         // 공격중이 아닐때 좌측에 몬스터 충돌 시 오르기
@@ -87,7 +86,7 @@ namespace RocketdanGamesProject.Enemy
             if (other.transform.CompareTag(BattleManager.HeroTag))
             {
                 _animator.SetBool(IsAttackAnimHash, false);
-                IsAttacking = false;
+                _isAttacking = false;
             }
         }
 

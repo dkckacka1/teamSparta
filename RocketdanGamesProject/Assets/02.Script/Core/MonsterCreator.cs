@@ -23,7 +23,7 @@ namespace RocketdanGamesProject.Core.Creator
         [SerializeField] private Transform middleSpawnPoint;
         [SerializeField] private Transform bottomSpawnPoint;
 
-        private Func<Monster> _getMonster = null;
+        private Func<Monster> _getMonster;
 
         private const string MonsterPoolName = "monster";
 

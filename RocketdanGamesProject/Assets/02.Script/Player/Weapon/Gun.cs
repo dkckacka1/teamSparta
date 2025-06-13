@@ -2,7 +2,7 @@ using System;
 using RocketdanGamesProject.Core.ObjectPool;
 using UnityEngine;
 
-namespace RocketdanGamesProject.Player.Gun
+namespace RocketdanGamesProject.Player.Weapon
 {
     // 총기의 기본 클래스
     public abstract class Gun : MonoBehaviour
@@ -13,7 +13,7 @@ namespace RocketdanGamesProject.Player.Gun
         public float damage;
         public float shotDelay = 0.5f;
         
-        protected Func<Bullet> GetBullet = null;
+        protected Func<Bullet> GetBullet;
         
         private const string BulletPoolName = "Bullet";
 
