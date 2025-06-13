@@ -129,7 +129,8 @@ MonoBehaviour:
   climbForce: 15
   climbDir: {x: -0.5, y: 1, z: 0}
   maxClimbSpeed: 1.5
-  pressureForce: 10
+  pressureForce: 8
+  maxPressureSpeed: 3
 --- !u!114 &3786988557377680311
 MonoBehaviour:
   m_ObjectHideFlags: 0
