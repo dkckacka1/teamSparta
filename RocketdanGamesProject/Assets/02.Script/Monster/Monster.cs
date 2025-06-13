@@ -137,8 +137,8 @@ namespace RocketdanGamesProject.Enemy
 
         protected virtual void Move()
         {
-            var movementVector = Vector2.left;
-            transform.Translate(movementVector * (movementSpeed * Time.deltaTime));
+            var movementDir = Vector3.left;
+            _rb.MovePosition(transform.position + movementDir * (movementSpeed * Time.deltaTime));
         }
 
         public abstract void Hit();
