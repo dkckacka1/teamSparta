@@ -126,7 +126,11 @@ namespace RocketdanGamesProject.Enemy
             _animator.SetBool(IsDeadAnimHash, false);
         }
 
-        public abstract void Move();
+        protected virtual void Move()
+        {
+            var movementVector = Vector2.left;
+            transform.Translate(movementVector * (movementSpeed * Time.deltaTime));
+        }
 
         public abstract void Hit();
     }
