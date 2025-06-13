@@ -63,8 +63,10 @@ namespace RocketdanGamesProject.Enemy
             {
                 if (!IsAttacking)
                 {
-                    if (other.contacts[0].normal.x > 0.5f)
-                        // 좌측 충돌만 계산
+                    bool isCollisionMonsterClimb = other.rigidbody.velocity.y > 0;
+                    
+                    if (other.contacts[0].normal.x > 0.5f && isCollisionMonsterClimb is false)
+                        // 좌측 충돌만 계산 && 대상 몬스터가 오르고 있지 않다면
                     {
                         // 공격중이 아닐때 좌측에 몬스터 충돌 시 오르기
                         _rb.AddForce(climbDir * climbForce);
@@ -134,7 +136,11 @@ namespace RocketdanGamesProject.Enemy
             }
         }
 
-        public abstract void Move();
+        protected virtual void Move()
+        {
+            var movementVector = Vector2.left;
+            transform.Translate(movementVector * (movementSpeed * Time.deltaTime));
+        }
 
         public abstract void Hit();
 
