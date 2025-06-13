@@ -117,7 +117,7 @@ namespace RocketdanGamesProject.Enemy
 
         public void OnGet()
         {
-            currentHp = maxHp;  
+            currentHp = maxHp;
         }
 
         public void OnRelease()
@@ -125,9 +125,19 @@ namespace RocketdanGamesProject.Enemy
             _animator.SetBool(IsAttackAnimHash, false);
             _animator.SetBool(IsDeadAnimHash, false);
         }
+        
+        public void SetSortingLayer(string getSortingLayerName)
+        {
+            foreach (var sprite in GetComponentsInChildren<SpriteRenderer>())
+            {
+                sprite.sortingLayerName = getSortingLayerName;
+            }
+        }
 
         public abstract void Move();
 
         public abstract void Hit();
+
+
     }
 }
