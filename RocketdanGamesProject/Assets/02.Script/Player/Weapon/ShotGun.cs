@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RocketdanGamesProject.Player.Gun
+namespace RocketdanGamesProject.Player.Weapon
 {
     // 샷건 형태의 총기 클래스
     public class ShotGun : Gun

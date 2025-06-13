@@ -4,7 +4,6 @@ using RocketdanGamesProject.Battle;
 using RocketdanGamesProject.Core;
 using RocketdanGamesProject.Enemy;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace RocketdanGamesProject.Player
 {
